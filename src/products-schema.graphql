@@ -1,4 +1,4 @@
-type Query {
+  type Query {
     "Query to get tracks array for the homepage grid"
     tracksForHome: [Track!]!
     "Fetch a specific track, provided a track's ID"
@@ -8,7 +8,8 @@ type Query {
   }
 
   type Mutation {
-    incrementTrackViews(id: ID!): IncrementTrackViewsResponse! # highlight-line
+    "Increment the number of views of a given track, when the track card is clicked"
+    incrementTrackViews(id: ID!): IncrementTrackViewsResponse!
   }
 
   type IncrementTrackViewsResponse {
@@ -31,8 +32,8 @@ type Query {
     author: Author!
     "The track's illustration to display in track card or track page detail"
     thumbnail: String
-    "The track's approximate length to complete, in minutes"
-    length: Int
+    "The track's approximate length to complete, in seconds"
+    length: Int @deprecated(reason: "Use durationInSeconds")
     "The number of modules this track contains"
     modulesCount: Int
     "The track's complete description, can be in markdown format"
@@ -41,6 +42,8 @@ type Query {
     numberOfViews: Int
     "The track's complete array of Modules"
     modules: [Module!]!
+    "The track's full duration, in seconds"
+    durationInSeconds: Int
   }
 
   "Author of a complete Track or a Module"
@@ -57,10 +60,12 @@ type Query {
     id: ID!
     "The module's title"
     title: String!
-    "The module's length in minutes"
-    length: Int
+    "The module's length in seconds"
+    length: Int @deprecated(reason: "Use durationInSeconds")
     "The module's text-based description, can be in markdown format. In case of a video, it will be the enriched transcript"
     content: String
     "The module's video url, for video-based modules"
     videoUrl: String
+    "The module's video duration, in seconds"
+    durationInSeconds: Int
   }
